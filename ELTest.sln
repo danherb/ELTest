@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ELTest", "ELTest\ELTest.csproj", "{7944CB6E-3279-44DA-B505-3EE75ACF9250}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7944CB6E-3279-44DA-B505-3EE75ACF9250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7944CB6E-3279-44DA-B505-3EE75ACF9250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7944CB6E-3279-44DA-B505-3EE75ACF9250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7944CB6E-3279-44DA-B505-3EE75ACF9250}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {221FB1FE-21D0-4C63-BED5-C24F14D6852C}
+	EndGlobalSection
+EndGlobal
