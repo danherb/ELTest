@@ -9,7 +9,7 @@ namespace ELTest.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public ActivityType TypeOfActivity { get; set; }
+        public ActivityType ActivityType { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
     }

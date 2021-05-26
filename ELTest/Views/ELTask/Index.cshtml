@@ -1,0 +1,80 @@
+﻿@*@model IEnumerable<MvcMovie.Models.Movie>*@ @*zmeneno na nize:*@
+@model List<ELTest.Models.ELTask>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@*html tag <form> pouziva Form Tag Helper, takze kdyz submitnu form, filter string je postnutej do Index akcni metody
+    Movies controlleru*@
+@*kdyz bych neuvedl method=get, pak by se mi parametr posilal skrze Form Field, muzu si to overit v Sit-Vse-
+    ten request zvolim, a pak Request, a tam je to videt ze se to posila... kdyz to method=get pridam,
+    tak se mi ten parametr hledani sam nasere do URL... proste se pouzije GET metoda, prestoze mam definovanej i HttpPost Index*@
+<!--<form asp-controller="ELTask" asp-action="Index" method="get">
+    <p>
+        <select asp-for="MovieGenre" asp-items="Model.Genres">--> @*tohle MovieGenre bude taky parametr v url*@
+            <!--<option value="">All</option>
+        </select>
+
+        Title: <input type="text" name="SearchString">--> @*tohle SearchString bude parametr v URL, SearchString=ABC*@
+        <!--<input type="submit" value="Filter" />
+    </p>
+</form>-->
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@ @*zmeneno na nize*@
+                @Html.DisplayNameFor(model => model[0].Name)
+                @*pozn.: DisplayNameFor inspectuje lambda vyrazy, DisplayFor evaluuje (kdyz jen inspectuju,
+            tak v pripade, ze model/model.Movies/model.Movies[0] je null/empty, tak nedostanu access violation)*@
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Movies[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Rating)
+            </th>
+            <th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var item in Model)*@
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>*@
+        </tr>
+        }
+    </tbody>
+</table>

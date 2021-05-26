@@ -7,7 +7,7 @@ namespace ELTest.Models
 {
     public class ActivityType
     {
-        public int ID { get; set; }
+        public int ActivityTypeID { get; set; }
         public string Name { get; set; }
     }
 }
