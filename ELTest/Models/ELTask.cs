@@ -27,5 +27,9 @@ namespace ELTest.Models
         [Required]
         [DataType(DataType.Time)]
         public DateTime To { get; set; }
+
+        //[DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.Time)]
+        public string Total => (To - From).ToString("hh\\:mm");
     }
 }

@@ -48,6 +48,10 @@
                 @*@Html.DisplayNameFor(model => model[0].To)*@
                 To
             </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model[0].To)*@
+                Total
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -70,6 +74,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.To)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
