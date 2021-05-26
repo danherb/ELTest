@@ -105,5 +105,67 @@ namespace ELTest.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.ELTasks.FindAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+
+            var activityTypes = _context.ActivityTypes.ToList();
+
+            var vm = new Models.ELTaskActivityTypeViewModel();
+            vm.SetActivityTypes(activityTypes);
+            vm.ELTask = task;
+
+            return View(vm);
+        }
+
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Models.ELTaskActivityTypeViewModel vm)
+        {
+            if (id != vm.ELTask.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(vm.ELTask);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TaskExists(vm.ELTask.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(vm.ELTask);
+        }
+
+        private bool TaskExists(int id)
+        {
+            return _context.ELTasks.Any(e => e.ID == id);
+        }
     }
 }

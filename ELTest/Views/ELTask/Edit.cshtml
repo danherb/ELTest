@@ -1,0 +1,53 @@
+﻿@model ELTest.Models.ELTaskActivityTypeViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ELTask.ID" />
+            <div class="form-group">
+                <label asp-for="ELTask.Name" class="control-label"></label>
+                <input asp-for="ELTask.Name" class="form-control" />
+                <span asp-validation-for="ELTask.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.ActivityType" class="control-label"></label>
+                <select asp-for="ELTask.ActivityTypeID" asp-items="Model.ActivityTypes">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.Date" class="control-label"></label>
+                <input asp-for="ELTask.Date" class="form-control" />
+                <span asp-validation-for="ELTask.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.From" class="control-label"></label>
+                <input asp-for="ELTask.From" class="form-control" />
+                <span asp-validation-for="ELTask.From" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.To" class="control-label"></label>
+                <input asp-for="ELTask.To" class="form-control" />
+                <span asp-validation-for="ELTask.To" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

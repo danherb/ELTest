@@ -27,10 +27,14 @@
             <select asp-for="ELTask.ActivityTypeID" asp-items="Model.ActivityTypes">
             </select>
         </div>
-         
+        <div class="form-group">
+            <label asp-for="ELTask.Date" class="control-label"></label>
+            <input asp-for="ELTask.Date" class="form-control" />
+            <span asp-validation-for="ELTask.Date" class="text-danger"></span>
+        </div>
         <div class="form-group">
             <label asp-for="ELTask.From" class="control-label"></label>
-            <input asp-for="ELTask.From" class="form-control" />
+            <input asp-for="ELTask.From"  class="form-control" />
             <span asp-validation-for="ELTask.From" class="text-danger"></span>
         </div>
         <div class="form-group">
