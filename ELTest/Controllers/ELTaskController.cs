@@ -20,7 +20,7 @@ namespace ELTest.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var list = await _context.ELTasks.ToListAsync();
+            var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
             return View(list);
         }
 
@@ -60,7 +60,7 @@ namespace ELTest.Controllers
             return View(vm);
         }
 
-        // POST: Movies/Create
+        // POST: ELTask/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         //použije se Bind atribut proti over-posting, alternativní přístup je použít ViewModels
@@ -69,9 +69,6 @@ namespace ELTest.Controllers
         public async Task<IActionResult> Create(Models.ELTaskActivityTypeViewModel vm)
         {
 
-            //jen pokus ale to by stejne bylo uplne blbe
-            vm.ELTask.ActivityType.Name = _context.ActivityTypes.Where(_ => _.ActivityTypeID == vm.ELTask.ActivityType.ActivityTypeID).FirstOrDefault().Name;
-
             if (ModelState.IsValid)
             {
                 _context.Add(vm.ELTask);
@@ -79,6 +76,34 @@ namespace ELTest.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(vm.ELTask);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.ELTasks
+                .FirstOrDefaultAsync(t => t.ID == id);
+
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return View(task);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var task = await _context.ELTasks.FindAsync(id);
+            _context.ELTasks.Remove(task);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -16,9 +16,10 @@ namespace ELTest.Data
         public DbSet<ELTask> ELTasks { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<ELTask>().ToTable("ELTasks");
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<ELTask>().ToTable("ELTasks");
+            modelBuilder.Entity<ELTask>().HasOne(t => t.ActivityType).WithMany(a => a.ELTasks).HasForeignKey(t => t.ActivityTypeID); ;
+        }
     }
 }

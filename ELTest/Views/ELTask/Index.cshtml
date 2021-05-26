@@ -25,6 +25,7 @@
     </p>
 </form>-->
 
+@*tabulka pro vypis ukolu*@
 <table class="table">
     <thead>
         <tr>
@@ -34,19 +35,16 @@
                 @*pozn.: DisplayNameFor inspectuje lambda vyrazy, DisplayFor evaluuje (kdyz jen inspectuju,
             tak v pripade, ze model/model.Movies/model.Movies[0] je null/empty, tak nedostanu access violation)*@
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Movies[0].ReleaseDate)
+            <th>
+                @Html.DisplayNameFor(model => model[0].ActivityType.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movies[0].Genre)
+                @Html.DisplayNameFor(model => model[0].From)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movies[0].Price)
+                @Html.DisplayNameFor(model => model[0].To)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movies[0].Rating)
-            </th>
-            <th></th>*@
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -57,23 +55,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityType.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Genre)
+                @Html.DisplayFor(modelItem => item.From)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.To)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rating)
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
         </tr>
         }
     </tbody>

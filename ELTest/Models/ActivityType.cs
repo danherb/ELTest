@@ -9,5 +9,6 @@ namespace ELTest.Models
     {
         public int ActivityTypeID { get; set; }
         public string Name { get; set; }
+        public List<ELTask> ELTasks { get; set; }
     }
 }
