@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<MvcMovie.Models.Movie>*@ @*zmeneno na nize:*@
-@model List<ELTest.Models.ELTask>
+﻿@model ELTest.Models.ELTaskActivityTypeViewModel2
 
 @{
     ViewData["Title"] = "Index";
@@ -9,21 +8,25 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-@*html tag <form> pouziva Form Tag Helper, takze kdyz submitnu form, filter string je postnutej do Index akcni metody
-    Movies controlleru*@
-@*kdyz bych neuvedl method=get, pak by se mi parametr posilal skrze Form Field, muzu si to overit v Sit-Vse-
-    ten request zvolim, a pak Request, a tam je to videt ze se to posila... kdyz to method=get pridam,
-    tak se mi ten parametr hledani sam nasere do URL... proste se pouzije GET metoda, prestoze mam definovanej i HttpPost Index*@
-<!--<form asp-controller="ELTask" asp-action="Index" method="get">
-    <p>
-        <select asp-for="MovieGenre" asp-items="Model.Genres">--> @*tohle MovieGenre bude taky parametr v url*@
-            <!--<option value="">All</option>
+<form asp-action="Index" class="col-md-4">
+    <div class="form-group">
+        <label asp-for="ActivityTypes" class="control-label"></label>
+        <select asp-for="SelectedActivityTypeID" asp-items="Model.ActivityTypes">
+            <option value="">All</option>
         </select>
-
-        Title: <input type="text" name="SearchString">--> @*tohle SearchString bude parametr v URL, SearchString=ABC*@
-        <!--<input type="submit" value="Filter" />
-    </p>
-</form>-->
+    </div>
+    <div class="form-group">
+        <label asp-for="From" class="control-label"></label>
+        <input asp-for="From" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="To" class="control-label"></label>
+        <input asp-for="To" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Filter" class="btn btn-primary" />
+    </div>
+</form>
 
 @*tabulka pro vypis ukolu*@
 <table class="table">
@@ -52,7 +55,7 @@
     </thead>
     <tbody>
         @*@foreach (var item in Model)*@
-        @foreach (var item in Model)
+        @foreach (var item in Model.ELTasks)
         {
         <tr>
             <td>
@@ -85,10 +88,12 @@
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                 @if (item.To == null)
                 {
-                    <a asp-action="StopStopwatch" asp-controller="ELTask" asp-route-stopWatch="stopwatchStart" asp-route-id="@item.ID"> | Stop</a>
+                    <span>|</span> <a asp-action="StopStopwatch" asp-controller="ELTask" asp-route-stopWatch="stopwatchStart" asp-route-id="@item.ID">Stop</a>
                 }
             </td>
         </tr>
         }
     </tbody>
 </table>
+
+

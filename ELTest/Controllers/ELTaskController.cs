@@ -18,19 +18,7 @@ namespace ELTest.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Ahoj()
-        {
-            var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
-            return View(list);
-        }
-
-        //public async Task<IActionResult> Index()
-        //{
-        //    var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
-        //    return View(list);
-        //}
-
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, Models.ELTaskActivityTypeViewModel2 vm = null)
         {
             //do ViewData ulozim aktualni stav razeni, tenhle aktualni stav mi prijde i ze sortOrder, takze udelam toggle a ulozim zas do ViewData
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -38,7 +26,31 @@ namespace ELTest.Controllers
             ViewData["DateSortParm"] = sortOrder == "date" ? "date_desc" : "date";
 
             var tasks = _context.ELTasks.Include(t => t.ActivityType) as IQueryable<Models.ELTask>;
+            var activityTypes = _context.ActivityTypes.ToList();
 
+
+            //filtr dle typu aktivity
+            if (vm is not null && !string.IsNullOrEmpty(vm.SelectedActivityTypeID))
+            {
+                if (int.TryParse(vm.SelectedActivityTypeID, out int activityType))
+                    tasks = tasks.Where(t => t.ActivityTypeID == activityType);
+            }
+
+            //filtr dle datumu, vm neni null a zaroven je vyplneny datum "From" nebo "To"
+            if (vm is not null)
+            {
+                if (vm.From is not null && vm.From.Value.Year > 1)
+                { 
+                    tasks = tasks.Where(t => t.Date.Value.Date >= vm.From.Value.Date);
+                }
+
+                if (vm.To is not null && vm.To.Value.Year > 1)
+                {
+                    tasks = tasks.Where(t => t.Date.Value.Date <= vm.To.Value.Date);
+                }
+            }
+
+            //razeni dle sloupcu
             tasks = sortOrder switch
             {
                 "name_desc" => tasks.OrderByDescending(t => t.Name),
@@ -49,34 +61,16 @@ namespace ELTest.Controllers
                 _ => tasks.OrderBy(t => t.Name),
             };
 
-            return View(await tasks.AsNoTracking().ToListAsync());
-        }
-
-        //pro filtrovani
-        public async Task<IActionResult> Index2(string selectedActivityType, string searchString)
-        {
-            var activityTypes = _context.ActivityTypes as IQueryable<Models.ActivityType>;
-
-            var tasks = _context.ELTasks as IQueryable<Models.ELTask>;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                tasks = tasks.Where(s => s.Name.Contains(searchString));
-            }
-
-            if (!string.IsNullOrEmpty(selectedActivityType))
-            {
-                tasks = tasks.Where(x => x.ActivityType.Name == selectedActivityType);
-            }
-
-            var vm = new Models.ELTaskActivityTypeViewModel2
-            {
-                ActivityTypes = new SelectList(await activityTypes.Distinct().ToListAsync()),
-                ELTasks = await tasks.ToListAsync()
+            vm = new Models.ELTaskActivityTypeViewModel2
+            { 
+                ELTasks = await tasks.AsNoTracking().ToListAsync()
             };
+
+            vm.SetActivityTypes(activityTypes);
 
             return View(vm);
         }
+
 
         public IActionResult Create()
         {
@@ -96,7 +90,7 @@ namespace ELTest.Controllers
         [ValidateAntiForgeryToken] //is used to prevent forgery of a request and is paired up with an anti-forgery token generated in the edit view file
         public async Task<IActionResult> Create(Models.ELTaskActivityTypeViewModel vm, string stopWatch)
         {
-            if (stopWatch.Equals("stopwatchStart"))
+            if (!string.IsNullOrEmpty(stopWatch) && stopWatch.Equals("stopwatchStart"))
             { 
                 vm.ELTask.From = DateTime.Now;
                 vm.ELTask.Date = DateTime.Now.Date;

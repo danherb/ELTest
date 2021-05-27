@@ -10,8 +10,7 @@ namespace ELTest.Models
     public class ELTaskActivityTypeViewModel
     {
         public ELTask ELTask { get; set; }
-        public List<SelectListItem> ActivityTypes { get; set; } //This allows the user to select a genre from the list.
-        public int SelectedActivityTypeID { get; set; }
+        public List<SelectListItem> ActivityTypes { get; set; } 
 
         public void SetActivityTypes(IEnumerable<ActivityType> activityTypes)
         {
