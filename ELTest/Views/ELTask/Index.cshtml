@@ -30,26 +30,21 @@
     <thead>
         <tr>
             <th>
-                @*                @Html.DisplayNameFor(model => model[0].Name)*@
-                Name
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model[0].ActivityType.Name)*@
-                Type of activity
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AcivityTypeSortParm"]">Type of activity</a>
             </th>
             <th>
-                Date
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model[0].From)*@
                 From
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model[0].To)*@
                 To
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model[0].To)*@
                 Total
             </th>
             <th></th>

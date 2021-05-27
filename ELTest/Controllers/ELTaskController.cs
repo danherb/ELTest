@@ -18,10 +18,32 @@ namespace ELTest.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
+        //    return View(list);
+        //}
+
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
-            return View(list);
+            //do ViewData ulozim aktualni stav razeni, tenhle aktualni stav mi prijde i ze sortOrder, takze udelam toggle a ulozim zas do ViewData
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["AcivityTypeSortParm"] = sortOrder == "activityType" ? "activityType_desc" : "activityType";
+            ViewData["DateSortParm"] = sortOrder == "date" ? "date_desc" : "date";
+
+            var tasks = _context.ELTasks.Include(t => t.ActivityType) as IQueryable<Models.ELTask>;
+
+            tasks = sortOrder switch
+            {
+                "name_desc" => tasks.OrderByDescending(t => t.Name),
+                "activityType" => tasks.OrderBy(t => t.ActivityType.Name),
+                "activityType_desc" => tasks.OrderByDescending(t => t.ActivityType.Name),
+                "date" => tasks.OrderBy(t => t.Date),
+                "date_desc" => tasks.OrderByDescending(t => t.Date),
+                _ => tasks.OrderBy(t => t.Name),
+            };
+
+            return View(await tasks.AsNoTracking().ToListAsync());
         }
 
         //pro filtrovani
