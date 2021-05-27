@@ -68,7 +68,14 @@
                 @Html.DisplayFor(modelItem => item.From)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.To)
+                @if (item.To == null)
+                {
+                    <span>Now</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.To)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
@@ -76,6 +83,10 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                @if (item.To == null)
+                {
+                    <a asp-action="StopStopwatch" asp-controller="ELTask" asp-route-stopWatch="stopwatchStart" asp-route-id="@item.ID"> | Stop</a>
+                }
             </td>
         </tr>
         }

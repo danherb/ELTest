@@ -18,6 +18,12 @@ namespace ELTest.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Ahoj()
+        {
+            var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
+            return View(list);
+        }
+
         //public async Task<IActionResult> Index()
         //{
         //    var list = await _context.ELTasks.Include(t => t.ActivityType).ToListAsync();
@@ -88,8 +94,13 @@ namespace ELTest.Controllers
         //použije se Bind atribut proti over-posting, alternativní přístup je použít ViewModels
         [HttpPost]
         [ValidateAntiForgeryToken] //is used to prevent forgery of a request and is paired up with an anti-forgery token generated in the edit view file
-        public async Task<IActionResult> Create(Models.ELTaskActivityTypeViewModel vm)
+        public async Task<IActionResult> Create(Models.ELTaskActivityTypeViewModel vm, string stopWatch)
         {
+            if (stopWatch.Equals("stopwatchStart"))
+            { 
+                vm.ELTask.From = DateTime.Now;
+                vm.ELTask.Date = DateTime.Now.Date;
+            }
 
             if (ModelState.IsValid)
             {
@@ -141,7 +152,6 @@ namespace ELTest.Controllers
                 return NotFound();
             }
 
-
             var activityTypes = _context.ActivityTypes.ToList();
 
             var vm = new Models.ELTaskActivityTypeViewModel();
@@ -155,12 +165,15 @@ namespace ELTest.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Models.ELTaskActivityTypeViewModel vm)
+        public async Task<IActionResult> Edit(int id, Models.ELTaskActivityTypeViewModel vm, string stopWatch)
         {
             if (id != vm.ELTask.ID)
             {
                 return NotFound();
             }
+
+            if (stopWatch.Equals("stopwatchStop"))
+                vm.ELTask.To = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -183,6 +196,42 @@ namespace ELTest.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(vm.ELTask);
+        }
+
+        public async Task<IActionResult> StopStopwatch(int? id, string stopWatch)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var task = await _context.ELTasks.FindAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            if (stopWatch.Equals("stopwatchStart"))
+                task.To = DateTime.Now;
+
+            try
+            {
+                _context.Update(task);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                if (!TaskExists(task.ID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         private bool TaskExists(int id)

@@ -15,19 +15,19 @@ namespace ELTest.Models
         public int ActivityTypeID { get; set; }
         public ActivityType ActivityType { get; set; }
 
-        [Required]
+        //Neni required, protoze muzu pouzit stopky - to se pak vyplni samo 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
-        [Required]
+        //Co kdyz bude doba delsi jak 24 hodin? Pokud jsem pouzil DateTime od a do, tak to ve firefoxu neukazalo 
+        //ten datepicker. Stejne to musim udelat takhle - zadani.
         [DataType(DataType.Time)]
-        public DateTime From { get; set; }
+        public DateTime? From { get; set; }
 
-        [Required]
         [DataType(DataType.Time)]
-        public DateTime To { get; set; }
+        public DateTime? To { get; set; }
 
-        public string Total => (To - From).ToString("hh\\:mm");
+        public string Total => (To?.Year > 1) ? (To - From)?.ToString("hh\\:mm") : (DateTime.Now - From)?.ToString("hh\\:mm");
     }
 }

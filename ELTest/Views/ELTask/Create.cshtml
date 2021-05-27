@@ -1,5 +1,4 @@
-﻿@*@model ELTest.Models.ActivityType*@
-@model ELTest.Models.ELTaskActivityTypeViewModel
+﻿@model ELTest.Models.ELTaskActivityTypeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -17,42 +16,41 @@
                 <input asp-for="ELTask.Name" class="form-control" />
                 <span asp-validation-for="ELTask.Name" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="ELTask.ActivityType" class="control-label"></label>
-            <input asp-for="ELTask.ActivityType" class="form-control" />
-            <span asp-validation-for="ELTask.ActivityType" class="text-danger"></span>
-        </div>*@
-        <div class="form-group">
-            <label asp-for="ELTask.ActivityType" class="control-label"></label>
-            <select asp-for="ELTask.ActivityTypeID" asp-items="Model.ActivityTypes">
-            </select>
-        </div>
-        <div class="form-group">
-            <label asp-for="ELTask.Date" class="control-label"></label>
-            <input asp-for="ELTask.Date" class="form-control" />
-            <span asp-validation-for="ELTask.Date" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ELTask.From" class="control-label"></label>
-            <input asp-for="ELTask.From"  class="form-control" />
-            <span asp-validation-for="ELTask.From" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ELTask.To" class="control-label"></label>
-            <input asp-for="ELTask.To" class="form-control" />
-            <span asp-validation-for="ELTask.To" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
+            <div class="form-group">
+                <label asp-for="ELTask.ActivityType" class="control-label"></label>
+                <select asp-for="ELTask.ActivityTypeID" asp-items="Model.ActivityTypes">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.Date" class="control-label"></label>
+                <input asp-for="ELTask.Date" class="form-control" />
+                @*<span asp-validation-for="ELTask.Date" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.From" class="control-label"></label>
+                <input asp-for="ELTask.From" class="form-control" />
+                @*<span asp-validation-for="ELTask.From" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="ELTask.To" class="control-label"></label>
+                <input asp-for="ELTask.To" class="form-control" />
+                @*<span asp-validation-for="ELTask.To" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Start" class="btn btn-primary" asp-route-stopWatch="stopwatchStart" />
+            </div>
         </form>
     </div>
 </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-        @section Scripts {
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

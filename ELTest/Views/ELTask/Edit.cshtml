@@ -40,6 +40,15 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+            
+            @if (Model.ELTask.To == null || Model.ELTask.To?.Year < 2)
+            { 
+                <div class="form-group">
+                    <input type="submit" value="Stop" class="btn btn-primary" asp-route-stopWatch="stopwatchStop" />
+                </div> 
+            }
+            
+           
         </form>
     </div>
 </div>
