@@ -2,29 +2,33 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["PageNumber"] = "1";
 }
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 
-<form asp-action="Index" class="col-md-4">
-    <div class="form-group">
-        <label asp-for="ActivityTypes" class="control-label"></label>
-        <select asp-for="SelectedActivityTypeID" asp-items="Model.ActivityTypes">
-            <option value="">All</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="From" class="control-label"></label>
-        <input asp-for="From" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="To" class="control-label"></label>
-        <input asp-for="To" class="form-control" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Filter" class="btn btn-primary" />
+<form asp-action="Index" class="col-md-12" style="margin-bottom: 25px">
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="ActivityTypes" class="control-label"></label>
+            <br/>
+            <select asp-for="SelectedActivityTypeID" asp-items="Model.ActivityTypes">
+                <option value="">All</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="From" class="control-label"></label>
+            <input asp-for="From" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label asp-for="To" class="control-label"></label>
+            <input asp-for="To" class="form-control" />
+        </div>
+        <div class="col-md-3" style="margin: auto; text-align: center;">
+            <input type="submit" value="Filter" class="btn btn-primary" />
+        </div>
     </div>
 </form>
 
@@ -96,4 +100,21 @@
     </tbody>
 </table>
 
+@{ 
+    int.TryParse(ViewData["PageNumber"].ToString(), out int pageNumber);
+}
+
+<div>
+    <div class="form-group">
+        @if (pageNumber == 1)
+        {
+            <input type="button" disabled="disabled" value="Previous" class="btn btn-primary" />
+        }
+        else
+        {
+            <input type="button" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber, numberOfItemsPerPage = 3 })'" value="Previous" class="btn btn-primary" />
+        }
+        <input type="button" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber+1, numberOfItemsPerPage = 3 })'" value="Next" class="btn btn-primary" />
+    </div>
+</div>
 

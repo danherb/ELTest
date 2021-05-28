@@ -18,12 +18,13 @@ namespace ELTest.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, Models.ELTaskActivityTypeViewModel2 vm = null)
+        public async Task<IActionResult> Index(string sortOrder, int? page, int? numberOfItemsPerPage, Models.ELTaskActivityTypeViewModel2 vm = null)
         {
             //do ViewData ulozim aktualni stav razeni, tenhle aktualni stav mi prijde i ze sortOrder, takze udelam toggle a ulozim zas do ViewData
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AcivityTypeSortParm"] = sortOrder == "activityType" ? "activityType_desc" : "activityType";
             ViewData["DateSortParm"] = sortOrder == "date" ? "date_desc" : "date";
+            ViewData["PageNumber"] = page;
 
             var tasks = _context.ELTasks.Include(t => t.ActivityType) as IQueryable<Models.ELTask>;
             var activityTypes = _context.ActivityTypes.ToList();
@@ -48,6 +49,14 @@ namespace ELTest.Controllers
                 {
                     tasks = tasks.Where(t => t.Date.Value.Date <= vm.To.Value.Date);
                 }
+            }
+
+
+            //pokud paginace
+            if (page is not null && page > 0 && numberOfItemsPerPage > 0)
+            {
+                int count = tasks.Count();
+                tasks = tasks.Skip((page.GetValueOrDefault - 1) * numberOfItemsPerPage).Take(numberOfItemsPerPage);
             }
 
             //razeni dle sloupcu
