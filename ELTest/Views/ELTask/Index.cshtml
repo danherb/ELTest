@@ -8,7 +8,7 @@
     <a asp-action="Create">Create New Task</a>
 </p>
 
-<form id="form1" asp-action="Index" class="col-md-12" style="margin-bottom: 25px">
+<form id="form1" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSortOrder"]" class="col-md-12" style="margin-bottom: 25px">
     <div class="row">
         <div class="col-md-3">
             <label asp-for="ActivityTypes" class="control-label"></label>
@@ -44,13 +44,13 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
+                <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["AcivityTypeSortParm"]">Type of activity</a>
+                <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["AcivityTypeSortParm"]">Type of activity</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
+                <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
             </th>
             <th>
                 From
@@ -116,28 +116,6 @@
 <div>
     <form>
         <div class="form-group">
-            @*@if (pageNumber == 1)
-        {
-            <input type="submit" disabled="disabled" value="Previous" class="btn btn-primary" />
-        }
-        else
-        {
-            <input type="submit" asp-for="NumberOfResultsPerPage" form="form1" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber-1, numberOfItemsPerPage = 2 })'" value="Previous" class="btn btn-primary" />
-        }
-        <input type="submit" asp-for="NumberOfResultsPerPage" form="form1" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber+1, numberOfItemsPerPage = 2 })'" value="Next" class="btn btn-primary" />*@
-
-            @*<input type="submit" asp-for="NumberOfResultsPerPage" form="form1" onclick="location.href='@Url.Action("Index", "ELTask")'" value="test" class="btn btn-primary" />*@
-
-            @*@if (pageNumber == 1)
-        {
-            <input type="submit" disabled="disabled" value="Previous" class="btn btn-primary" />
-        }
-        else
-        {
-            <input type="submit" form="form1" value="Previous" class="btn btn-primary" />
-        }
-        <input type="submit" form="form1" value="Next" class="btn btn-primary" />*@
-
             @if (pageNumber == 1)
             {
                 <input type="button" disabled="disabled" value="Previous" class="btn btn-primary" />
@@ -155,7 +133,6 @@
             else
             {
                 <input type="button" onclick="incrementPage(1)" value="Next" class="btn btn-primary" />
-
             }
         </div>
     </form>
