@@ -55,6 +55,7 @@ namespace ELTest.Controllers
 
             int count = tasks.Count();
 
+
             //if (vm.NumberOfResultsPerPage is null || vm.NumberOfResultsPerPage == 0)
             //{
             //    vm.NumberOfResultsPerPage = 3; //default is 3
@@ -77,6 +78,7 @@ namespace ELTest.Controllers
                 ViewData["PageNumber"] = 1;
             }
             tasks = tasks.Skip((vm.PageNumber.GetValueOrDefault() - 1) * vm.NumberOfResultsPerPage.GetValueOrDefault()).Take(vm.NumberOfResultsPerPage.GetValueOrDefault());
+            ViewData["LastPageIndex"] = Math.Ceiling((double)count / vm.NumberOfResultsPerPage.GetValueOrDefault());
 
 
             //razeni dle sloupcu

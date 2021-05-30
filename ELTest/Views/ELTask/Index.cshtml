@@ -2,11 +2,10 @@
 
 @{
     ViewData["Title"] = "Index";
-    //ViewData["PageNumber"] = "1";
 }
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Task</a>
 </p>
 
 <form id="form1" asp-action="Index" class="col-md-12" style="margin-bottom: 25px">
@@ -18,19 +17,19 @@
                 <option value="">All</option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label asp-for="From" class="control-label"></label>
             <input asp-for="From" class="form-control" />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label asp-for="To" class="control-label"></label>
             <input asp-for="To" class="form-control" />
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             <label asp-for="NumberOfResultsPerPage" class="control-label">Results per page</label>
             <input asp-for="NumberOfResultsPerPage" class="form-control" />
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             <label asp-for="PageNumber" class="control-label">Page</label>
             <input id="inputPageNumber" asp-for="PageNumber" class="form-control" />
         </div>
@@ -110,7 +109,7 @@
 
 @{ 
     int.TryParse(ViewData["PageNumber"].ToString(), out int pageNumber);
-    //Model.PageNumber = pageNumber + 1; //toto bych rad udelal pri kliku na tlacitko
+    int.TryParse(ViewData["LastPageIndex"].ToString(), out int lastPageIndex);
 }
 
 
@@ -147,14 +146,23 @@
             {
                 <input type="button" onclick="incrementPage(-1)" value="Previous" class="btn btn-primary" />
             }
-            <input type="button" onclick="incrementPage(1)" value="Next" class="btn btn-primary" />
 
+            @if (pageNumber == lastPageIndex)
+            {
+                <input type="button" disabled="disabled" value="Next" class="btn btn-primary" />
+
+            }
+            else
+            {
+                <input type="button" onclick="incrementPage(1)" value="Next" class="btn btn-primary" />
+
+            }
         </div>
     </form>
 </div>
 
 <script>
-    function nextPage(incrementBy) {
+    function incrementPage(incrementBy) {
         var pageNumber = JSON.parse('@Html.Raw(Json.Serialize(ViewData["PageNumber"]))');
 
         $("#inputPageNumber").val(parseInt(pageNumber) + incrementBy);
