@@ -2,18 +2,18 @@
 
 @{
     ViewData["Title"] = "Index";
-    ViewData["PageNumber"] = "1";
+    //ViewData["PageNumber"] = "1";
 }
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 
-<form asp-action="Index" class="col-md-12" style="margin-bottom: 25px">
+<form id="form1" asp-action="Index" class="col-md-12" style="margin-bottom: 25px">
     <div class="row">
         <div class="col-md-3">
             <label asp-for="ActivityTypes" class="control-label"></label>
-            <br/>
+            <br />
             <select asp-for="SelectedActivityTypeID" asp-items="Model.ActivityTypes">
                 <option value="">All</option>
             </select>
@@ -26,7 +26,15 @@
             <label asp-for="To" class="control-label"></label>
             <input asp-for="To" class="form-control" />
         </div>
-        <div class="col-md-3" style="margin: auto; text-align: center;">
+        <div class="col-md-1">
+            <label asp-for="NumberOfResultsPerPage" class="control-label">Results per page</label>
+            <input asp-for="NumberOfResultsPerPage" class="form-control" />
+        </div>
+        <div class="col-md-1">
+            <label asp-for="PageNumber" class="control-label">Page</label>
+            <input id="inputPageNumber" asp-for="PageNumber" class="form-control" />
+        </div>
+        <div class="col-md-1" style="margin: auto; text-align: center;">
             <input type="submit" value="Filter" class="btn btn-primary" />
         </div>
     </div>
@@ -102,19 +110,55 @@
 
 @{ 
     int.TryParse(ViewData["PageNumber"].ToString(), out int pageNumber);
+    //Model.PageNumber = pageNumber + 1; //toto bych rad udelal pri kliku na tlacitko
 }
 
+
 <div>
-    <div class="form-group">
-        @if (pageNumber == 1)
+    <form>
+        <div class="form-group">
+            @*@if (pageNumber == 1)
         {
-            <input type="button" disabled="disabled" value="Previous" class="btn btn-primary" />
+            <input type="submit" disabled="disabled" value="Previous" class="btn btn-primary" />
         }
         else
         {
-            <input type="button" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber, numberOfItemsPerPage = 3 })'" value="Previous" class="btn btn-primary" />
+            <input type="submit" asp-for="NumberOfResultsPerPage" form="form1" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber-1, numberOfItemsPerPage = 2 })'" value="Previous" class="btn btn-primary" />
         }
-        <input type="button" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber+1, numberOfItemsPerPage = 3 })'" value="Next" class="btn btn-primary" />
-    </div>
+        <input type="submit" asp-for="NumberOfResultsPerPage" form="form1" onclick="location.href='@Url.Action("Index", "ELTask", new { page = pageNumber+1, numberOfItemsPerPage = 2 })'" value="Next" class="btn btn-primary" />*@
+
+            @*<input type="submit" asp-for="NumberOfResultsPerPage" form="form1" onclick="location.href='@Url.Action("Index", "ELTask")'" value="test" class="btn btn-primary" />*@
+
+            @*@if (pageNumber == 1)
+        {
+            <input type="submit" disabled="disabled" value="Previous" class="btn btn-primary" />
+        }
+        else
+        {
+            <input type="submit" form="form1" value="Previous" class="btn btn-primary" />
+        }
+        <input type="submit" form="form1" value="Next" class="btn btn-primary" />*@
+
+            @if (pageNumber == 1)
+            {
+                <input type="button" disabled="disabled" value="Previous" class="btn btn-primary" />
+            }
+            else
+            {
+                <input type="button" onclick="incrementPage(-1)" value="Previous" class="btn btn-primary" />
+            }
+            <input type="button" onclick="incrementPage(1)" value="Next" class="btn btn-primary" />
+
+        </div>
+    </form>
 </div>
+
+<script>
+    function nextPage(incrementBy) {
+        var pageNumber = JSON.parse('@Html.Raw(Json.Serialize(ViewData["PageNumber"]))');
+
+        $("#inputPageNumber").val(parseInt(pageNumber) + incrementBy);
+        $("#form1").submit();
+    }
+</script>
 

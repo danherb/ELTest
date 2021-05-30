@@ -20,6 +20,9 @@ namespace ELTest.Models
         [DataType(DataType.Date)]
         public DateTime? To { get; set; }
 
+        public int? NumberOfResultsPerPage { get; set; }
+        public int? PageNumber { get; set; }
+
         public void SetActivityTypes(IEnumerable<ActivityType> activityTypes)
         {
             ActivityTypes = activityTypes.Select(a => new SelectListItem

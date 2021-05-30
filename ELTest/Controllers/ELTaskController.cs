@@ -18,13 +18,15 @@ namespace ELTest.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, int? page, int? numberOfItemsPerPage, Models.ELTaskActivityTypeViewModel2 vm = null)
+        //public async Task<IActionResult> Index(string sortOrder, int? page/*, int? numberOfItemsPerPage*/, Models.ELTaskActivityTypeViewModel2 vm = null)
+        public async Task<IActionResult> Index(string sortOrder, Models.ELTaskActivityTypeViewModel2 vm = null)
         {
             //do ViewData ulozim aktualni stav razeni, tenhle aktualni stav mi prijde i ze sortOrder, takze udelam toggle a ulozim zas do ViewData
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["AcivityTypeSortParm"] = sortOrder == "activityType" ? "activityType_desc" : "activityType";
             ViewData["DateSortParm"] = sortOrder == "date" ? "date_desc" : "date";
-            ViewData["PageNumber"] = page;
+            //ViewData["PageNumber"] = page;
+            ViewData["PageNumber"] = vm.PageNumber;
 
             var tasks = _context.ELTasks.Include(t => t.ActivityType) as IQueryable<Models.ELTask>;
             var activityTypes = _context.ActivityTypes.ToList();
@@ -51,13 +53,31 @@ namespace ELTest.Controllers
                 }
             }
 
+            int count = tasks.Count();
 
-            //pokud paginace
-            if (page is not null && page > 0 && numberOfItemsPerPage > 0)
+            //if (vm.NumberOfResultsPerPage is null || vm.NumberOfResultsPerPage == 0)
+            //{
+            //    vm.NumberOfResultsPerPage = 3; //default is 3
+            //}
+            //if (page is null || page == 0)
+            //{
+            //    page = 1; //first page by default
+            //    ViewData["PageNumber"] = 1;
+            //}
+            //tasks = tasks.Skip((page.GetValueOrDefault() - 1) * vm.NumberOfResultsPerPage.GetValueOrDefault()).Take(vm.NumberOfResultsPerPage.GetValueOrDefault());
+
+
+            if (vm.NumberOfResultsPerPage is null || vm.NumberOfResultsPerPage == 0)
             {
-                int count = tasks.Count();
-                tasks = tasks.Skip((page.GetValueOrDefault - 1) * numberOfItemsPerPage).Take(numberOfItemsPerPage);
+                vm.NumberOfResultsPerPage = 3; //default is 3
             }
+            if (vm.PageNumber is null || vm.PageNumber == 0)
+            {
+                vm.PageNumber = 1; //first page by default
+                ViewData["PageNumber"] = 1;
+            }
+            tasks = tasks.Skip((vm.PageNumber.GetValueOrDefault() - 1) * vm.NumberOfResultsPerPage.GetValueOrDefault()).Take(vm.NumberOfResultsPerPage.GetValueOrDefault());
+
 
             //razeni dle sloupcu
             tasks = sortOrder switch
