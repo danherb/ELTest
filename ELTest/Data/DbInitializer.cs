@@ -9,17 +9,16 @@ namespace ELTest.Data
         {
             context.Database.EnsureCreated();
 
-            // Look for any students.
             if (context.ActivityTypes.Any())
             {
-                return;   // DB has been seeded
+                return;   //DB has been seeded
             }
 
             var activityTypes = new ActivityType[]
             {
-            new ActivityType{Name="Aktivita 1"},
-            new ActivityType{Name="Aktivita 2"},
-            new ActivityType{Name="Aktivita 3"}
+                new ActivityType{Name="Aktivita 1"},
+                new ActivityType{Name="Aktivita 2"},
+                new ActivityType{Name="Aktivita 3"}
             };
 
             foreach (var activityType in activityTypes)

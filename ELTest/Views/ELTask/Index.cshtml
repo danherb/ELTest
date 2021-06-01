@@ -1,141 +1,142 @@
 ﻿@model ELTest.Models.ELTaskActivityTypeViewModel2
 
 @{
-    ViewData["Title"] = "Index";
+    //ViewData["Title"] = "Index";
 }
 
-<p>
-    <a asp-action="Create">Create New Task</a>
-</p>
+<div class="eltask-index-page">
 
-<form id="form1" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSortOrder"]" class="col-md-12" style="margin-bottom: 25px">
-    <div class="row">
-        <div class="col-md-3">
-            <label asp-for="ActivityTypes" class="control-label"></label>
-            <br />
-            <select asp-for="SelectedActivityTypeID" asp-items="Model.ActivityTypes">
-                <option value="">All</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <label asp-for="From" class="control-label"></label>
-            <input asp-for="From" class="form-control" />
-        </div>
-        <div class="col-md-2">
-            <label asp-for="To" class="control-label"></label>
-            <input asp-for="To" class="form-control" />
-        </div>
-        <div class="col-md-2">
-            <label asp-for="NumberOfResultsPerPage" class="control-label">Results per page</label>
-            <input asp-for="NumberOfResultsPerPage" class="form-control" />
-        </div>
-        <div class="col-md-2">
-            <label asp-for="PageNumber" class="control-label">Page</label>
-            <input id="inputPageNumber" asp-for="PageNumber" class="form-control" />
-        </div>
-        <div class="col-md-1" style="margin: auto; text-align: center;">
-            <input type="submit" value="Filter" class="btn btn-primary" />
-        </div>
-    </div>
-</form>
+    <p>
+        <a asp-action="Create">Create New Task</a>
+    </p>
 
-@*tabulka pro vypis ukolu*@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["AcivityTypeSortParm"]">Type of activity</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
-            </th>
-            <th>
-                From
-            </th>
-            <th>
-                To
-            </th>
-            <th>
-                Total
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @*@foreach (var item in Model)*@
-        @foreach (var item in Model.ELTasks)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.From)
-            </td>
-            <td>
-                @if (item.To == null)
+    <form id="form1" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSortOrder"]" class="col-md-12" style="margin-bottom: 25px">
+        <div class="row">
+            <div class="col-sm-6 col-lg-3">
+                <label asp-for="ActivityTypes" class="control-label"></label>
+                <br />
+                <select class="form-control" asp-for="SelectedActivityTypeID" asp-items="Model.ActivityTypes">
+                    <option value="">All</option>
+                </select>
+            </div>
+            <div class="col-sm-6 col-lg-2">
+                <label asp-for="From" class="control-label"></label>
+                <input asp-for="From" class="form-control" />
+            </div>
+            <div class="col-sm-6 col-lg-2">
+                <label asp-for="To" class="control-label"></label>
+                <input asp-for="To" class="form-control" />
+            </div>
+            <div class="col-sm-6 col-lg-2">
+                <label asp-for="NumberOfResultsPerPage" class="control-label">Results per page</label>
+                <input asp-for="NumberOfResultsPerPage" class="form-control" />
+            </div>
+            <div class="col-sm-6 col-lg-2">
+                <label asp-for="PageNumber" class="control-label">Page</label>
+                <input id="inputPageNumber" asp-for="PageNumber" class="form-control" />
+            </div>
+            <div class="col-sm-6 col-lg-1 filter-btn">
+                <input type="submit" value="Filter" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["AcivityTypeSortParm"]">Type of activity</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ELTasks)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActivityType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.From)
+                    </td>
+                    <td>
+                        @if (item.To == null)
+                        {
+                            <span>Now</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.To)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        @if (item.To == null)
+                        {
+                            <span>|</span> <a asp-action="StopStopwatch" asp-controller="ELTask" asp-route-stopWatch="stopwatchStart" asp-route-id="@item.ID">Stop</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        int.TryParse(ViewData["PageNumber"].ToString(), out int pageNumber);
+        int.TryParse(ViewData["LastPageIndex"].ToString(), out int lastPageIndex);
+    }
+
+    <div>
+        <form>
+            <div class="form-group">
+                @if (pageNumber == 1)
                 {
-                    <span>Now</span>
+                    <input type="button" disabled="disabled" value="Previous" class="btn btn-primary" />
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.To)
+                    <input type="button" onclick="incrementPage(-1)" value="Previous" class="btn btn-primary" />
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                @if (item.To == null)
+
+                @if (pageNumber == lastPageIndex)
                 {
-                    <span>|</span> <a asp-action="StopStopwatch" asp-controller="ELTask" asp-route-stopWatch="stopwatchStart" asp-route-id="@item.ID">Stop</a>
+                    <input type="button" disabled="disabled" value="Next" class="btn btn-primary" />
+
                 }
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                else
+                {
+                    <input type="button" onclick="incrementPage(1)" value="Next" class="btn btn-primary" />
+                }
+            </div>
+        </form>
+    </div>
 
-@{ 
-    int.TryParse(ViewData["PageNumber"].ToString(), out int pageNumber);
-    int.TryParse(ViewData["LastPageIndex"].ToString(), out int lastPageIndex);
-}
-
-
-<div>
-    <form>
-        <div class="form-group">
-            @if (pageNumber == 1)
-            {
-                <input type="button" disabled="disabled" value="Previous" class="btn btn-primary" />
-            }
-            else
-            {
-                <input type="button" onclick="incrementPage(-1)" value="Previous" class="btn btn-primary" />
-            }
-
-            @if (pageNumber == lastPageIndex)
-            {
-                <input type="button" disabled="disabled" value="Next" class="btn btn-primary" />
-
-            }
-            else
-            {
-                <input type="button" onclick="incrementPage(1)" value="Next" class="btn btn-primary" />
-            }
-        </div>
-    </form>
 </div>
 
 <script>
