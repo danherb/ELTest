@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ELTest.Data;
 using ELTest.Models;
@@ -19,19 +16,19 @@ namespace ELTest.Controllers
             _context = context;
         }
 
-        // GET: ActivityTypes
+        // GET: ActivityType
         public async Task<IActionResult> Index()
         {
             return View(await _context.ActivityTypes.ToListAsync());
         }
 
-        // GET: ActivityTypes/Create
+        // GET: ActivityType/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ActivityTypes/Create
+        // POST: ActivityType/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -47,7 +44,7 @@ namespace ELTest.Controllers
             return View(activityType);
         }
 
-        // GET: ActivityTypes/Edit/5
+        // GET: ActivityType/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -63,7 +60,7 @@ namespace ELTest.Controllers
             return View(activityType);
         }
 
-        // POST: ActivityTypes/Edit/5
+        // POST: ActivityType/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -98,7 +95,7 @@ namespace ELTest.Controllers
             return View(activityType);
         }
 
-        // GET: ActivityTypes/Delete/5
+        // GET: ActivityType/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -116,7 +113,7 @@ namespace ELTest.Controllers
             return View(activityType);
         }
 
-        // POST: ActivityTypes/Delete/5
+        // POST: ActivityType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

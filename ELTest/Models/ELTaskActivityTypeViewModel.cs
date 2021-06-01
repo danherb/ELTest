@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ELTest.Models
 {
-    //viewmodel pro Create stranku
+    //Viewmodel for Create page
     public class ELTaskActivityTypeViewModel
     {
         public ELTask ELTask { get; set; }

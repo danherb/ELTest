@@ -1,9 +1,5 @@
 ﻿@model ELTest.Models.ELTaskActivityTypeViewModel2
 
-@{
-    //ViewData["Title"] = "Index";
-}
-
 <div class="eltask-index-page">
 
     <p>
@@ -48,7 +44,7 @@
                     <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["NameSortParm"]">Name</a>
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["AcivityTypeSortParm"]">Type of activity</a>
+                    <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["ActivityTypeSortParm"]">Type of activity</a>
                 </th>
                 <th>
                     <a asp-action="Index" asp-route-numOfResults="@Model.NumberOfResultsPerPage" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>

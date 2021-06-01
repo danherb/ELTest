@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ELTest.Models
 {
     public class ELTaskActivityTypeViewModel2
     {
-        //viewmodel pro Index stranku
+        //Viewmodel for Index page
         public List<ELTask> ELTasks { get; set; }
         public List<SelectListItem> ActivityTypes { get; set; } 
         public string SelectedActivityTypeID { get; set; } 
@@ -17,6 +16,7 @@ namespace ELTest.Models
 
         [DataType(DataType.Date)]
         public DateTime? From { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime? To { get; set; }
 

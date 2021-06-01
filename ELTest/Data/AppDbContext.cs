@@ -18,8 +18,7 @@ namespace ELTest.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<ELTask>().ToTable("ELTasks");
-            modelBuilder.Entity<ELTask>().HasOne(t => t.ActivityType).WithMany(a => a.ELTasks).HasForeignKey(t => t.ActivityTypeID); ;
+            //modelBuilder.Entity<ELTask>().HasOne(t => t.ActivityType).WithMany(a => a.ELTasks).HasForeignKey(t => t.ActivityTypeID); ;
         }
     }
 }

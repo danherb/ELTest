@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ELTest.Models
 {
-    public class ELTask
+    public class ELTask : IValidatableObject
     {
         public int ID { get; set; }
 
@@ -15,13 +15,11 @@ namespace ELTest.Models
         public int ActivityTypeID { get; set; }
         public ActivityType ActivityType { get; set; }
 
-        //Neni required, protoze muzu pouzit stopky - to se pak vyplni samo 
+        //Not required because it will be filled automatically in case of use stopwatch 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? Date { get; set; }
 
-        //Co kdyz bude doba delsi jak 24 hodin? Pokud jsem pouzil DateTime od a do, tak to ve firefoxu neukazalo 
-        //ten datepicker. Stejne to musim udelat takhle - zadani.
         [DataType(DataType.Time)]
         public DateTime? From { get; set; }
 
@@ -29,5 +27,13 @@ namespace ELTest.Models
         public DateTime? To { get; set; }
 
         public string Total => (To?.Year > 1) ? (To - From)?.ToString("hh\\:mm") : (DateTime.Now - From)?.ToString("hh\\:mm");
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (To < From)
+            {
+                yield return new ValidationResult("\"From\" has to be lesser than \"To\".");
+            }
+        }
     }
 }

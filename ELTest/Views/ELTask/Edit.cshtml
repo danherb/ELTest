@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h3>Edit Task</h3>
 
 <hr />
 <div class="row">
@@ -41,14 +41,12 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
             
-            @if (Model.ELTask.To == null || Model.ELTask.To?.Year < 2)
+            @if (Model.ELTask.To == null || Model.ELTask.To?.Year < 1)
             { 
                 <div class="form-group">
                     <input type="submit" value="Stop" class="btn btn-primary" asp-route-stopWatch="stopwatchStop" />
                 </div> 
             }
-            
-           
         </form>
     </div>
 </div>
